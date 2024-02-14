@@ -1,12 +1,3 @@
-'プロキシ http://group-pac.global.canon.co.jp/cpi/proxy-cpi.pac
-'canon.co.joをローカルネットワークに追加
-
-'64bit版で32bitOracleClientを使う場合は
-'C:\Windows\SysWow64\wscript.exe c:\ie.vbs のような感じ
-'文字化けする場合はユーザー環境変数のNLS_LANGを確認
-
-'ie_mainte.vbs 041754 cpi41754
-
 call catch()
 If Err.Number <> 0 Then
 	WScript.Echo Now() & ":" & Err.Number & ":" & Err.Description
