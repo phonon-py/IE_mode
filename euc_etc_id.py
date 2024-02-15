@@ -6,7 +6,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import BINARY_LOCATION,MSEDGE_DRIVER, USER_NAME, USER_PASSWORD
+from config import BINARY_LOCATION,MSEDGE_DRIVER, USER_NAME, USER_PASSWORD,KIKAN_URL
 
 # Edgeのオプション設定
 edge_options = Options()
@@ -33,7 +33,7 @@ def login_kikan_with_seleniun(driver,username,password):
         ログイン後のWebDriverのインスタンス
     """    
     # 新基幹のページを開く
-    driver.get("http://core-apserver.prec.canon.co.jp/ZZ_CPIPortal/page/myLogin.jsp")
+    driver.get(KIKAN_URL)
 
     # ユーザー入力欄の要素を取得
     user_element = driver.find_element(By.ID, 'user')
