@@ -1,7 +1,15 @@
 # dirs
 venv
+__pycache__
 
 # files
 ie_mainte.bat
+ie_mainte.vbs
 IEDriverServer.exe
 config.py
+
+# リモートレポジトリの追跡を外したいファイル
+.git/
+
+# リモートレポジトリの追跡を外したいディレクトリ
+.git/refs/remotes/origin/*

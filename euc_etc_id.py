@@ -68,14 +68,12 @@ WebDriverWait(driver, 10).until(
 new_window_handle = [
     handle for handle in driver.window_handles if handle != current_window_handle
 ][0]
-print(new_window_handle)
 # 別ウィンドウに切り替え
 driver.switch_to.window(new_window_handle)
 
 # 別ウィンドウで要素をクリック
 element_element = driver.find_element(By.ID, 'a_lnk_01_item')
 element_element.click()
-sleep(10)
 
 
 # ブラウザを閉じる
