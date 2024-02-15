@@ -4,3 +4,4 @@ venv
 # files
 ie_mainte.bat
 IEDriverServer.exe
+config.py
