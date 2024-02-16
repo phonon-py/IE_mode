@@ -53,7 +53,7 @@ def login_kikan_with_seleniun(driver,username,password):
     return driver
 login_kikan_with_seleniun(driver,username,password)
 
-#!
+
 # 別ウィンドウを開く前に現在ウィンドウのハンドルを取得
 current_window_handle = driver.current_window_handle
 print(current_window_handle)
