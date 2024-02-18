@@ -65,3 +65,42 @@ WebDriverを初期化した後は、通常のSeleniumコードを使用してブ
 Copy code
 driver.get('https://www.example.com')
 ```
+
+# 要否カラムからの判定サンプル
+## 特定のWebページに遷移した後に、Pandasデータフレームを用いて'Aライセンス'の行のみにフィルタリングし、その後'要否カラム'の値に基づいてSeleniumを使ってプルダウンメニューから適切な選択をする方法を示しています。この例では、フィルタリングされたデータフレームの各行に対して、'要'ならプルダウンで'要'を選択し、'否'ならプルダウンで'否'を選択します。
+```python
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+
+# データフレームの例
+data = {
+    'ライセンス': ['Aライセンス', 'Bライセンス', 'Aライセンス'],
+    '要否カラム': ['要', '要', '否']
+}
+df = pd.DataFrame(data)
+
+# 'Aライセンス'の行のみにフィルタリング
+filtered_df = df[df['ライセンス'] == 'Aライセンス']
+
+# Selenium WebDriverの初期化 (Chromeを例とします)
+driver = webdriver.Chrome(executable_path='あなたのwebdriverのパス')
+
+# 特定のWebページに遷移
+driver.get('プルダウンメニューが含まれるページのURL')
+
+# フィルタリングされたデータフレームをループ処理
+for index, row in filtered_df.iterrows():
+    # プルダウンメニュー要素を特定
+    select_element = driver.find_element_by_id('プルダウンの要素のID')
+    select = Select(select_element)
+
+    # '要否カラム'の値に応じてプルダウンメニューから選択
+    if row['要否カラム'] == '要':
+        select.select_by_visible_text('要')
+    else:
+        select.select_by_visible_text('否')
+
+# WebDriverを閉じる
+driver.quit()
+```
