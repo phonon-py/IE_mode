@@ -50,6 +50,9 @@ def perform_specific_operations(driver):
     エラーが発生した場合は、その時点で処理を中断し、どのステップで中断されたかを表示します。
     """
 
+    # EXCELの読み込み
+    df = pd.read_excel('DataFarame_path')
+    
     # 棚卸し開始をクリック
     inventory_start_element = driver.find_element(By.ID, 'a_lnk_01_item')
     inventory_start_element.click()
@@ -58,32 +61,43 @@ def perform_specific_operations(driver):
     detail_element = driver.find_element(By.ID, 'sidAPP_BUTTON')
     detail_element.click()
 
+    #! 動作確認したら次のテーブルへ遷移する処理を追加する
     # 要素を取得してクリック
     element = driver.find_element(By.ID, "g[0].tana_button_item")
     element.click()
 
     # プルダウン要素を操作
-    max_loop = 1000  # 最大ループ数を設定
+    max_loop = len(df)
     for i in range(max_loop):
         try:
             # プルダウン要素を取得
             select_element = driver.find_element(By.NAME, f"g[{i}]._cd_youhi_str")
             select = Select(select_element)
-            select.select_by_value('1')  # 特定の値で選択
-
+            # dfの要否カラムの値に基づいてプルダウン項目を選択
+            value_to_select = str(df.iloc[i]['要否'])  # dfのi行目の要否カラムの値を取得
+            select.select_by_value(value_to_select)
+            
             # 15回繰り返したら次へボタンを押す
             if i % 15 == 14:
                 # 更新ボタンをクリック
                 driver.find_element(By.ID, "sidUPDATE_A").click()
-                sleep(2)  # 少し待機
+                # 更新ボタンのクリック後、次へボタンがクリック可能になるまで待機
+                WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.ID, "_eventcursornextpage_g"))
+                )
 
                 # 次へボタンをクリック
                 driver.find_element(By.ID, "_eventcursornextpage_g").click()
-                sleep(5)  # 少し待機
+                # 次へボタンのクリック後、何らかの明確なページ遷移や要素の表示を待機する処理を追加
+                # 例: 次ページの特定の要素が表示されるまで待機
+                WebDriverWait(driver, 10).until(
+                    EC.visibility_of_element_located((By.ID, f"g[{i}]._cd_youhi_str"))
+                )
 
         except Exception as e:
             print(f"Process ended or failed at iteration {i}: {e}")
             break  # 要素が見つからない場合など、処理を終了
+
 # メインの処理
 def main():
     driver = create_webdriver()
