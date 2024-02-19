@@ -7,6 +7,7 @@ ie_mainte.bat
 ie_mainte.vbs
 IEDriverServer.exe
 config.py
+userid_clean.ipynb
 
 # リモートレポジトリの追跡を外したいファイル
 .git/
