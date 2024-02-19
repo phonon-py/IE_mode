@@ -85,36 +85,27 @@ element = driver.find_element(By.ID, "g[0].tana_button_item")
 # 要素をクリック
 element.click()
 
-# ここでデータフレームの読込み
-df = pd.read_excel(DF_PATH)
-
-#! 全部要へ変更する
-
-#! テーブル要素を取得
-table = driver.find_element(By.ID, "TH_g")
-print(table)
-
-#! テーブルID、TH_gの中からpandasのユーザー名id sidO_USER_NAMEのテキストとid sidO_KENGEN_NAMEが一致する
-
-#! g[0].tana_button_itemをfor分で回す
-
-# 最大ループ回数
-MAX_LOOP = 10
-# ループ処理
-for i in range(MAX_LOOP):
-    try:
-        # 要素を取得
-        element = driver.find_element(By.ID, f"g[{i}].tana_button_item")
-        
-        # 要素をクリック
-        element.click()
-
-        # ブラウザバック
-        driver.back()
-        
-    except:
-        # 要素が存在しない場合はループを終了
-        break
-
+# プルダウン要素を取得
+#! NAMEの数は続いている
+max_loop = 1000
+try:
+    for i in range(max_loop):
+        select_element = driver.find_element(By.NAME, f"g[{i}]._cd_youhi_str")
+        select = Select(select_element)
+        select.select_by_value('1')
+        # 15回繰り返したら次へボタンを押す
+        if i % 15 == 14:
+            # 更新ボタンを押す
+            element = driver.find_element(By.ID, "sidUPDATE_A")
+            # 要素をクリック
+            element.click()
+            sleep(2)
+            # 次へボタンを取得
+            element = driver.find_element(By.ID, "_eventcursornextpage_g")
+            # 要素をクリック
+            element.click()
+            sleep(5)
+except:
+    print('end')
 # ブラウザを閉じる
 driver.quit()
